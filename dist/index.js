@@ -46,28 +46,11 @@
 
 	'use strict';
 	
-	var _afterTest = __webpack_require__(1);
+	var _getTest = __webpack_require__(1);
 	
-	var _afterTest2 = _interopRequireDefault(_afterTest);
-	
-	var _assignWith = __webpack_require__(3);
-	
-	var _assignWith2 = _interopRequireDefault(_assignWith);
-	
+	var _getTest2 = _interopRequireDefault(_getTest);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	// import a from './isSymbol.test.js';
-	// import a from './add.test.js';
-	function customizer(objValue, srcValue) {
-	  return isUndefined(objValue) ? srcValue : objValue;
-	}
-	// import ary from './ary.test.js'; //源码少./.internal/createWrap.js
-	
-	
-	var defaults = partialRight(_assignWith2.default, customizer);
-	
-	defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
-	// => { 'a': 1, 'b': 2 }
 
 /***/ }),
 /* 1 */
@@ -75,65 +58,66 @@
 
 	'use strict';
 	
-	var _after = __webpack_require__(2);
+	var _get = __webpack_require__(2);
 	
-	var _after2 = _interopRequireDefault(_after);
+	var _get2 = _interopRequireDefault(_get);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var saves = ['profile', 'settings'];
+	var object = { 'a': [{ 'b': { 'c': 3 } }] };
 	
-	var done = (0, _after2.default)(saves.length, function () {
-	    console.log('done saving!');
-	});
-	
-	saves.forEach(function (item) {
-	    console.log(item);
-	    done();
-	});
-	// => 函数执行>=2次后打印 'done saving!'
+	console.log((0, _get2.default)(object, 'a[0].b.c'));
+	// => 3
+	// console.log(get(object, ['a', '0', 'b', 'c']));
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	var _baseGet = __webpack_require__(3);
+	
+	var _baseGet2 = _interopRequireDefault(_baseGet);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	/**
-	 * 创建一个触发执行`func` 的函数，一旦方法被触发>=n次后，就执行func。
-	 * @since 0.1.0
-	 * @category Function
-	 * @param {number} n 调用“func”之前调用的次数 n。.
-	 * @param {Function} func 要调用的回调方法
-	 * @returns {Function} 返回一个新的已约束的函数
+	 * Gets the value at `path` of `object`. If the resolved value is
+	 * `undefined`, the `defaultValue` is returned in its place.
+	 * 取得`path`路径下的`object`的值，`undefined` 时支持默认值`defaultValue`替换
+	 *
+	 * @since 3.7.0
+	 * @category Object
+	 * @param {Object} object 需要查询的对象
+	 * @param {Array|string} path 需要获取的属性路径，支持 Array|string 两种类型参数，比较方便.
+	 * @param {*} [defaultValue] The value returned for `undefined` resolved values.
+	 * @returns {*} Returns the resolved value.
+	 * @see has, hasIn, set, unset
 	 * @example
 	 *
-	 * const saves = ['profile', 'settings']
-	 * const done = after(saves.length, () => console.log('done saving!'))
+	 * const object = { 'a': [{ 'b': { 'c': 3 } }] }
 	 *
-	 * forEach(saves, type => asyncSave({ 'type': type, 'complete': done }))
-	 * // => Logs 'done saving!' after the two async saves have completed.
+	 * get(object, 'a[0].b.c')
+	 * // => 3
+	 *
+	 * get(object, ['a', '0', 'b', 'c'])
+	 * // => 3
+	 *
+	 * get(object, 'a.b.c', 'default')
+	 * // => 'default'
 	 */
-	function after(n, func) {
-	  if (typeof func != 'function') {
-	    throw new TypeError('Expected a function');
-	  }
-	  // 返回闭包函数，n被存储起来，一直为第一次的数值n，之后一直--n运算，总有n<1的时候，就触发func回调的执行。
-	  return function () {
-	    if (--n < 1) {
-	      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	        args[_key] = arguments[_key];
-	      }
-	
-	      return func.apply(this, args);
-	    }
-	  };
+	function get(object, path, defaultValue) {
+	  // 过程比较简单，对undefined值判断取默认值defaultValue，所有取值逻辑都在`baseGet`模块内。
+	  var result = object == null ? undefined : (0, _baseGet2.default)(object, path);
+	  return result === undefined ? defaultValue : result;
 	}
 	
-	exports.default = after;
+	exports.default = get;
 
 /***/ }),
 /* 3 */
@@ -145,51 +129,37 @@
 	  value: true
 	});
 	
-	var _copyObject = __webpack_require__(4);
+	var _castPath = __webpack_require__(4);
 	
-	var _copyObject2 = _interopRequireDefault(_copyObject);
+	var _castPath2 = _interopRequireDefault(_castPath);
 	
-	var _createAssigner = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./.internal/createAssigner.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _toKey = __webpack_require__(17);
 	
-	var _createAssigner2 = _interopRequireDefault(_createAssigner);
-	
-	var _keys = __webpack_require__(8);
-	
-	var _keys2 = _interopRequireDefault(_keys);
+	var _toKey2 = _interopRequireDefault(_toKey);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/**
-	 * This method is like `assign` except that it accepts `customizer`
-	 * which is invoked to produce the assigned values. If `customizer` returns
-	 * `undefined`, assignment is handled by the method instead. The `customizer`
-	 * is invoked with five arguments: (objValue, srcValue, key, object, source).
+	 * The base implementation of `get` without support for default values.
 	 *
-	 * **Note:** This method mutates `object`.
-	 *
-	 * @since 4.0.0
-	 * @category Object
-	 * @param {Object} object The destination object.
-	 * @param {...Object} sources The source objects.
-	 * @param {Function} [customizer] The function to customize assigned values.
-	 * @returns {Object} Returns `object`.
-	 * @see assignInWith
-	 * @example
-	 *
-	 * function customizer(objValue, srcValue) {
-	 *   return isUndefined(objValue) ? srcValue : objValue
-	 * }
-	 *
-	 * const defaults = partialRight(assignWith, customizer)
-	 *
-	 * defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 })
-	 * // => { 'a': 1, 'b': 2 }
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @param {Array|string} path The path of the property to get.
+	 * @returns {*} Returns the resolved value.
 	 */
-	var assignWith = (0, _createAssigner2.default)(function (object, source, srcIndex, customizer) {
-	  (0, _copyObject2.default)(source, (0, _keys2.default)(source), object, customizer);
-	});
+	function baseGet(object, path) {
+	  path = (0, _castPath2.default)(path, object);
 	
-	exports.default = assignWith;
+	  var index = 0;
+	  var length = path.length;
+	
+	  while (object != null && index < length) {
+	    object = object[(0, _toKey2.default)(path[index++])];
+	  }
+	  return index && index == length ? object : undefined;
+	}
+	
+	exports.default = baseGet;
 
 /***/ }),
 /* 4 */
@@ -201,68 +171,32 @@
 	  value: true
 	});
 	
-	var _assignValue = __webpack_require__(5);
+	var _isKey = __webpack_require__(5);
 	
-	var _assignValue2 = _interopRequireDefault(_assignValue);
+	var _isKey2 = _interopRequireDefault(_isKey);
 	
-	var _baseAssignValue = __webpack_require__(6);
+	var _stringToPath = __webpack_require__(9);
 	
-	var _baseAssignValue2 = _interopRequireDefault(_baseAssignValue);
+	var _stringToPath2 = _interopRequireDefault(_stringToPath);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/**
-	 * Copies properties of `source` to `object`.
+	 * Casts `value` to a path array if it's not one.
 	 *
 	 * @private
-	 * @param {Object} source The object to copy properties from.
-	 * @param {Array} props The property identifiers to copy.
-	 * @param {Object} [object={}] The object to copy properties to.
-	 * @param {Function} [customizer] The function to customize copied values.
-	 * @returns {Object} Returns `object`.
+	 * @param {*} value The value to inspect.
+	 * @param {Object} [object] The object to query keys on.
+	 * @returns {Array} Returns the cast property path array.
 	 */
-	function copyObject(source, props, object, customizer) {
-	  var isNew = !object;
-	  object || (object = {});
-	
-	  var _iteratorNormalCompletion = true;
-	  var _didIteratorError = false;
-	  var _iteratorError = undefined;
-	
-	  try {
-	    for (var _iterator = props[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	      var key = _step.value;
-	
-	      var newValue = customizer ? customizer(object[key], source[key], key, object, source) : undefined;
-	
-	      if (newValue === undefined) {
-	        newValue = source[key];
-	      }
-	      if (isNew) {
-	        (0, _baseAssignValue2.default)(object, key, newValue);
-	      } else {
-	        (0, _assignValue2.default)(object, key, newValue);
-	      }
-	    }
-	  } catch (err) {
-	    _didIteratorError = true;
-	    _iteratorError = err;
-	  } finally {
-	    try {
-	      if (!_iteratorNormalCompletion && _iterator.return) {
-	        _iterator.return();
-	      }
-	    } finally {
-	      if (_didIteratorError) {
-	        throw _iteratorError;
-	      }
-	    }
+	function castPath(value, object) {
+	  if (Array.isArray(value)) {
+	    return value;
 	  }
-	
-	  return object;
+	  return (0, _isKey2.default)(value, object) ? [value] : (0, _stringToPath2.default)(value);
 	}
 	
-	exports.default = copyObject;
+	exports.default = castPath;
 
 /***/ }),
 /* 5 */
@@ -274,239 +208,41 @@
 	  value: true
 	});
 	
-	var _baseAssignValue = __webpack_require__(6);
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
-	var _baseAssignValue2 = _interopRequireDefault(_baseAssignValue);
+	var _isSymbol = __webpack_require__(6);
 	
-	var _eq = __webpack_require__(7);
-	
-	var _eq2 = _interopRequireDefault(_eq);
+	var _isSymbol2 = _interopRequireDefault(_isSymbol);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	/** Used to check objects for own properties. */
-	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	/** Used to match property names within property paths. */
+	var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
+	var reIsPlainProp = /^\w*$/;
 	
 	/**
-	 * Assigns `value` to `key` of `object` if the existing value is not equivalent
-	 * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
-	 * for equality comparisons.
+	 * Checks if `value` is a property name and not a property path.
 	 *
 	 * @private
-	 * @param {Object} object The object to modify.
-	 * @param {string} key The key of the property to assign.
-	 * @param {*} value The value to assign.
+	 * @param {*} value The value to check.
+	 * @param {Object} [object] The object to query keys on.
+	 * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
 	 */
-	function assignValue(object, key, value) {
-	  var objValue = object[key];
-	  if (!(hasOwnProperty.call(object, key) && (0, _eq2.default)(objValue, value)) || value === undefined && !(key in object)) {
-	    (0, _baseAssignValue2.default)(object, key, value);
+	function isKey(value, object) {
+	  if (Array.isArray(value)) {
+	    return false;
 	  }
+	  var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+	  if (type == 'number' || type == 'boolean' || value == null || (0, _isSymbol2.default)(value)) {
+	    return true;
+	  }
+	  return reIsPlainProp.test(value) || !reIsDeepProp.test(value) || object != null && value in Object(object);
 	}
 	
-	exports.default = assignValue;
+	exports.default = isKey;
 
 /***/ }),
 /* 6 */
-/***/ (function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	/**
-	 * The base implementation of `assignValue` and `assignMergeValue` without
-	 * value checks.
-	 *
-	 * @private
-	 * @param {Object} object The object to modify.
-	 * @param {string} key The key of the property to assign.
-	 * @param {*} value The value to assign.
-	 */
-	function baseAssignValue(object, key, value) {
-	  if (key == '__proto__') {
-	    Object.defineProperty(object, key, {
-	      'configurable': true,
-	      'enumerable': true,
-	      'value': value,
-	      'writable': true
-	    });
-	  } else {
-	    object[key] = value;
-	  }
-	}
-	
-	exports.default = baseAssignValue;
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	/**
-	 * Performs a
-	 * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
-	 * comparison between two values to determine if they are equivalent.
-	 *
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to compare.
-	 * @param {*} other The other value to compare.
-	 * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
-	 * @example
-	 *
-	 * const object = { 'a': 1 }
-	 * const other = { 'a': 1 }
-	 *
-	 * eq(object, object)
-	 * // => true
-	 *
-	 * eq(object, other)
-	 * // => false
-	 *
-	 * eq('a', 'a')
-	 * // => true
-	 *
-	 * eq('a', Object('a'))
-	 * // => false
-	 *
-	 * eq(NaN, NaN)
-	 * // => true
-	 */
-	function eq(value, other) {
-	  return value === other || value !== value && other !== other;
-	}
-	
-	exports.default = eq;
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _arrayLikeKeys = __webpack_require__(9);
-	
-	var _arrayLikeKeys2 = _interopRequireDefault(_arrayLikeKeys);
-	
-	var _isArrayLike = __webpack_require__(20);
-	
-	var _isArrayLike2 = _interopRequireDefault(_isArrayLike);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/**
-	 * Creates an array of the own enumerable property names of `object`.
-	 *
-	 * **Note:** Non-object values are coerced to objects. See the
-	 * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
-	 * for more details.
-	 *
-	 * @since 0.1.0
-	 * @category Object
-	 * @param {Object} object The object to query.
-	 * @returns {Array} Returns the array of property names.
-	 * @see values, valuesIn
-	 * @example
-	 *
-	 * function Foo() {
-	 *   this.a = 1
-	 *   this.b = 2
-	 * }
-	 *
-	 * Foo.prototype.c = 3
-	 *
-	 * keys(new Foo)
-	 * // => ['a', 'b'] (iteration order is not guaranteed)
-	 *
-	 * keys('hi')
-	 * // => ['0', '1']
-	 */
-	function keys(object) {
-	  return (0, _isArrayLike2.default)(object) ? (0, _arrayLikeKeys2.default)(object) : Object.keys(Object(object));
-	}
-	
-	exports.default = keys;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _isArguments = __webpack_require__(10);
-	
-	var _isArguments2 = _interopRequireDefault(_isArguments);
-	
-	var _isBuffer = __webpack_require__(13);
-	
-	var _isBuffer2 = _interopRequireDefault(_isBuffer);
-	
-	var _isIndex = __webpack_require__(17);
-	
-	var _isIndex2 = _interopRequireDefault(_isIndex);
-	
-	var _isTypedArray = __webpack_require__(18);
-	
-	var _isTypedArray2 = _interopRequireDefault(_isTypedArray);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/** Used to check objects for own properties. */
-	var hasOwnProperty = Object.prototype.hasOwnProperty;
-	
-	/**
-	 * Creates an array of the enumerable property names of the array-like `value`.
-	 *
-	 * @private
-	 * @param {*} value The value to query.
-	 * @param {boolean} inherited Specify returning inherited property names.
-	 * @returns {Array} Returns the array of property names.
-	 */
-	function arrayLikeKeys(value, inherited) {
-	  var isArr = Array.isArray(value);
-	  var isArg = !isArr && (0, _isArguments2.default)(value);
-	  var isBuff = !isArr && !isArg && (0, _isBuffer2.default)(value);
-	  var isType = !isArr && !isArg && !isBuff && (0, _isTypedArray2.default)(value);
-	  var skipIndexes = isArr || isArg || isBuff || isType;
-	  var length = value.length;
-	  var result = new Array(skipIndexes ? length : 0);
-	  var index = skipIndexes ? -1 : length;
-	  while (++index < length) {
-	    result[index] = '' + index;
-	  }
-	  for (var key in value) {
-	    if ((inherited || hasOwnProperty.call(value, key)) && !(skipIndexes && (
-	    // Safari 9 has enumerable `arguments.length` in strict mode.
-	    key == 'length' ||
-	    // Node.js 0.10 has enumerable non-index properties on buffers.
-	    isBuff && (key == 'offset' || key == 'parent') ||
-	    // PhantomJS 2 has enumerable non-index properties on typed arrays.
-	    isType && (key == 'buffer' || key == 'byteLength' || key == 'byteOffset') || // Skip index properties.
-	    (0, _isIndex2.default)(key, length)))) {
-	      result.push(key);
-	    }
-	  }
-	  return result;
-	}
-	
-	exports.default = arrayLikeKeys;
-
-/***/ }),
-/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -517,35 +253,37 @@
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
-	var _getTag = __webpack_require__(11);
+	var _getTag = __webpack_require__(7);
 	
 	var _getTag2 = _interopRequireDefault(_getTag);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/**
-	 * Checks if `value` is likely an `arguments` object.
+	 * Checks if `value` is classified as a `Symbol` primitive or object.
+	 * 检测`value`值是否为symbol或被定义的
 	 *
-	 * @since 0.1.0
+	 * @since 4.0.0
 	 * @category Lang
 	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is an `arguments` object, else `false`.
+	 * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
 	 * @example
 	 *
-	 * isArguments(function() { return arguments }())
+	 * isSymbol(Symbol.iterator)
 	 * // => true
 	 *
-	 * isArguments([1, 2, 3])
+	 * isSymbol('abc')
 	 * // => false
 	 */
-	function isArguments(value) {
-	  return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object' && value !== null && (0, _getTag2.default)(value) == '[object Arguments]';
+	function isSymbol(value) {
+	  var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+	  return type == 'symbol' || type == 'object' && value != null && (0, _getTag2.default)(value) == '[object Symbol]';
 	}
 	
-	exports.default = isArguments;
+	exports.default = isSymbol;
 
 /***/ }),
-/* 11 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -554,7 +292,7 @@
 	  value: true
 	});
 	
-	var _baseGetTag = __webpack_require__(12);
+	var _baseGetTag = __webpack_require__(8);
 	
 	var _baseGetTag2 = _interopRequireDefault(_baseGetTag);
 	
@@ -622,7 +360,7 @@
 	exports.default = getTag;
 
 /***/ }),
-/* 12 */
+/* 8 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -698,76 +436,618 @@
 	exports.default = baseGetTag;
 
 /***/ }),
-/* 13 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	var _memoizeCapped = __webpack_require__(10);
 	
-	var _root = __webpack_require__(15);
-	
-	var _root2 = _interopRequireDefault(_root);
+	var _memoizeCapped2 = _interopRequireDefault(_memoizeCapped);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	/** Detect free variable `exports`. */
-	var freeExports = ( false ? 'undefined' : _typeof(exports)) == 'object' && exports !== null && !exports.nodeType && exports;
-	
-	/** Detect free variable `module`. */
-	var freeModule = freeExports && ( false ? 'undefined' : _typeof(module)) == 'object' && module !== null && !module.nodeType && module;
-	
-	/** Detect the popular CommonJS extension `module.exports`. */
-	var moduleExports = freeModule && freeModule.exports === freeExports;
-	
-	/** Built-in value references. */
-	var Buffer = moduleExports ? _root2.default.Buffer : undefined;
-	
-	/* Built-in method references for those with the same name as other `lodash` methods. */
-	var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
+	var charCodeOfDot = '.'.charCodeAt(0);
+	var reEscapeChar = /\\(\\)?/g;
+	var rePropName = RegExp(
+	// Match anything that isn't a dot or bracket.
+	'[^.[\\]]+' + '|' +
+	// Or match property names within brackets.
+	'\\[(?:' +
+	// Match a non-string expression.
+	'([^"\'].*)' + '|' +
+	// Or match strings (supports escaping characters).
+	'(["\'])((?:(?!\\2)[^\\\\]|\\\\.)*?)\\2' + ')\\]' + '|' +
+	// Or match "" as the space between consecutive dots or empty brackets.
+	'(?=(?:\\.|\\[\\])(?:\\.|\\[\\]|$))', 'g');
 	
 	/**
-	 * Checks if `value` is a buffer.
+	 * Converts `string` to a property path array.
 	 *
-	 * @since 4.3.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+	 * @private
+	 * @param {string} string The string to convert.
+	 * @returns {Array} Returns the property path array.
+	 */
+	var stringToPath = (0, _memoizeCapped2.default)(function (string) {
+	  var result = [];
+	  if (string.charCodeAt(0) === charCodeOfDot) {
+	    result.push('');
+	  }
+	  string.replace(rePropName, function (match, expression, quote, subString) {
+	    var key = match;
+	    if (quote) {
+	      key = subString.replace(reEscapeChar, '$1');
+	    } else if (expression) {
+	      key = expression.trim();
+	    }
+	    result.push(key);
+	  });
+	  return result;
+	});
+	
+	exports.default = stringToPath;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _memoize = __webpack_require__(11);
+	
+	var _memoize2 = _interopRequireDefault(_memoize);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/** Used as the maximum memoize cache size. */
+	var MAX_MEMOIZE_SIZE = 500;
+	
+	/**
+	 * A specialized version of `memoize` which clears the memoized function's
+	 * cache when it exceeds `MAX_MEMOIZE_SIZE`.
+	 *
+	 * @private
+	 * @param {Function} func The function to have its output memoized.
+	 * @returns {Function} Returns the new memoized function.
+	 */
+	function memoizeCapped(func) {
+	  var result = (0, _memoize2.default)(func, function (key) {
+	    var cache = result.cache;
+	
+	    if (cache.size === MAX_MEMOIZE_SIZE) {
+	      cache.clear();
+	    }
+	    return key;
+	  });
+	
+	  return result;
+	}
+	
+	exports.default = memoizeCapped;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _MapCache = __webpack_require__(12);
+	
+	var _MapCache2 = _interopRequireDefault(_MapCache);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/**
+	 * Creates a function that memoizes the result of `func`. If `resolver` is
+	 * provided, it determines the cache key for storing the result based on the
+	 * arguments provided to the memoized function. By default, the first argument
+	 * provided to the memoized function is used as the map cache key. The `func`
+	 * is invoked with the `this` binding of the memoized function.
+	 *
+	 * **Note:** The cache is exposed as the `cache` property on the memoized
+	 * function. Its creation may be customized by replacing the `memoize.Cache`
+	 * constructor with one whose instances implement the
+	 * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
+	 * method interface of `clear`, `delete`, `get`, `has`, and `set`.
+	 *
+	 * @since 0.1.0
+	 * @category Function
+	 * @param {Function} func The function to have its output memoized.
+	 * @param {Function} [resolver] The function to resolve the cache key.
+	 * @returns {Function} Returns the new memoized function.
 	 * @example
 	 *
-	 * isBuffer(new Buffer(2))
-	 * // => true
+	 * const object = { 'a': 1, 'b': 2 }
+	 * const other = { 'c': 3, 'd': 4 }
 	 *
-	 * isBuffer(new Uint8Array(2))
-	 * // => false
+	 * const values = memoize(values)
+	 * values(object)
+	 * // => [1, 2]
+	 *
+	 * values(other)
+	 * // => [3, 4]
+	 *
+	 * object.a = 2
+	 * values(object)
+	 * // => [1, 2]
+	 *
+	 * // Modify the result cache.
+	 * values.cache.set(object, ['a', 'b'])
+	 * values(object)
+	 * // => ['a', 'b']
+	 *
+	 * // Replace `memoize.Cache`.
+	 * memoize.Cache = WeakMap
 	 */
-	var isBuffer = nativeIsBuffer || function () {
-	  return false;
-	};
+	function memoize(func, resolver) {
+	  if (typeof func != 'function' || resolver != null && typeof resolver != 'function') {
+	    throw new TypeError('Expected a function');
+	  }
+	  var memoized = function memoized() {
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
 	
-	exports.default = isBuffer;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module)))
+	    var key = resolver ? resolver.apply(this, args) : args[0];
+	    var cache = memoized.cache;
+	
+	    if (cache.has(key)) {
+	      return cache.get(key);
+	    }
+	    var result = func.apply(this, args);
+	    memoized.cache = cache.set(key, result) || cache;
+	    return result;
+	  };
+	  memoized.cache = new (memoize.Cache || _MapCache2.default)();
+	  return memoized;
+	}
+	
+	memoize.Cache = _MapCache2.default;
+	
+	exports.default = memoize;
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	
+	var _Hash = __webpack_require__(13);
+	
+	var _Hash2 = _interopRequireDefault(_Hash);
+	
+	var _ListCache = __webpack_require__(14);
+	
+	var _ListCache2 = _interopRequireDefault(_ListCache);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	/**
+	 * Gets the data for `map`.
+	 *
+	 * @private
+	 * @param {Object} map The map to query.
+	 * @param {string} key The reference key.
+	 * @returns {*} Returns the map data.
+	 */
+	function getMapData(_ref, key) {
+	  var __data__ = _ref.__data__;
+	
+	  var data = __data__;
+	  return isKeyable(key) ? data[typeof key == 'string' ? 'string' : 'hash'] : data.map;
+	}
+	
+	/**
+	 * Checks if `value` is suitable for use as unique object key.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+	 */
+	function isKeyable(value) {
+	  var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+	  return type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean' ? value !== '__proto__' : value === null;
+	}
+	
+	var MapCache = function () {
+	
+	  /**
+	   * Creates a map cache object to store key-value pairs.
+	   *
+	   * @private
+	   * @constructor
+	   * @param {Array} [entries] The key-value pairs to cache.
+	   */
+	  function MapCache(entries) {
+	    _classCallCheck(this, MapCache);
+	
+	    var index = -1;
+	    var length = entries == null ? 0 : entries.length;
+	
+	    this.clear();
+	    while (++index < length) {
+	      var entry = entries[index];
+	      this.set(entry[0], entry[1]);
+	    }
+	  }
+	
+	  /**
+	   * Removes all key-value entries from the map.
+	   *
+	   * @memberOf MapCache
+	   */
+	
+	
+	  _createClass(MapCache, [{
+	    key: 'clear',
+	    value: function clear() {
+	      this.size = 0;
+	      this.__data__ = {
+	        'hash': new _Hash2.default(),
+	        'map': new (Map || _ListCache2.default)(),
+	        'string': new _Hash2.default()
+	      };
+	    }
+	
+	    /**
+	     * Removes `key` and its value from the map.
+	     *
+	     * @memberOf MapCache
+	     * @param {string} key The key of the value to remove.
+	     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+	     */
+	
+	  }, {
+	    key: 'delete',
+	    value: function _delete(key) {
+	      var result = getMapData(this, key)['delete'](key);
+	      this.size -= result ? 1 : 0;
+	      return result;
+	    }
+	
+	    /**
+	     * Gets the map value for `key`.
+	     *
+	     * @memberOf MapCache
+	     * @param {string} key The key of the value to get.
+	     * @returns {*} Returns the entry value.
+	     */
+	
+	  }, {
+	    key: 'get',
+	    value: function get(key) {
+	      return getMapData(this, key).get(key);
+	    }
+	
+	    /**
+	     * Checks if a map value for `key` exists.
+	     *
+	     * @memberOf MapCache
+	     * @param {string} key The key of the entry to check.
+	     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+	     */
+	
+	  }, {
+	    key: 'has',
+	    value: function has(key) {
+	      return getMapData(this, key).has(key);
+	    }
+	
+	    /**
+	     * Sets the map `key` to `value`.
+	     *
+	     * @memberOf MapCache
+	     * @param {string} key The key of the value to set.
+	     * @param {*} value The value to set.
+	     * @returns {Object} Returns the map cache instance.
+	     */
+	
+	  }, {
+	    key: 'set',
+	    value: function set(key, value) {
+	      var data = getMapData(this, key);
+	      var size = data.size;
+	
+	      data.set(key, value);
+	      this.size += data.size == size ? 0 : 1;
+	      return this;
+	    }
+	  }]);
+	
+	  return MapCache;
+	}();
+	
+	exports.default = MapCache;
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	/** Used to stand-in for `undefined` hash values. */
+	var HASH_UNDEFINED = '__lodash_hash_undefined__';
+	
+	var Hash = function () {
+	
+	  /**
+	   * Creates a hash object.
+	   *
+	   * @private
+	   * @constructor
+	   * @param {Array} [entries] The key-value pairs to cache.
+	   */
+	  function Hash(entries) {
+	    _classCallCheck(this, Hash);
+	
+	    var index = -1;
+	    var length = entries == null ? 0 : entries.length;
+	
+	    this.clear();
+	    while (++index < length) {
+	      var entry = entries[index];
+	      this.set(entry[0], entry[1]);
+	    }
+	  }
+	
+	  /**
+	   * Removes all key-value entries from the hash.
+	   *
+	   * @memberOf Hash
+	   */
+	
+	
+	  _createClass(Hash, [{
+	    key: 'clear',
+	    value: function clear() {
+	      this.__data__ = Object.create(null);
+	      this.size = 0;
+	    }
+	
+	    /**
+	     * Removes `key` and its value from the hash.
+	     *
+	     * @memberOf Hash
+	     * @param {Object} hash The hash to modify.
+	     * @param {string} key The key of the value to remove.
+	     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+	     */
+	
+	  }, {
+	    key: 'delete',
+	    value: function _delete(key) {
+	      var result = this.has(key) && delete this.__data__[key];
+	      this.size -= result ? 1 : 0;
+	      return result;
+	    }
+	
+	    /**
+	     * Gets the hash value for `key`.
+	     *
+	     * @memberOf Hash
+	     * @param {string} key The key of the value to get.
+	     * @returns {*} Returns the entry value.
+	     */
+	
+	  }, {
+	    key: 'get',
+	    value: function get(key) {
+	      var data = this.__data__;
+	      var result = data[key];
+	      return result === HASH_UNDEFINED ? undefined : result;
+	    }
+	
+	    /**
+	     * Checks if a hash value for `key` exists.
+	     *
+	     * @memberOf Hash
+	     * @param {string} key The key of the entry to check.
+	     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+	     */
+	
+	  }, {
+	    key: 'has',
+	    value: function has(key) {
+	      var data = this.__data__;
+	      return data[key] !== undefined;
+	    }
+	
+	    /**
+	     * Sets the hash `key` to `value`.
+	     *
+	     * @memberOf Hash
+	     * @param {string} key The key of the value to set.
+	     * @param {*} value The value to set.
+	     * @returns {Object} Returns the hash instance.
+	     */
+	
+	  }, {
+	    key: 'set',
+	    value: function set(key, value) {
+	      var data = this.__data__;
+	      this.size += this.has(key) ? 0 : 1;
+	      data[key] = value === undefined ? HASH_UNDEFINED : value;
+	      return this;
+	    }
+	  }]);
+	
+	  return Hash;
+	}();
+	
+	exports.default = Hash;
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
-	module.exports = function (module) {
-		if (!module.webpackPolyfill) {
-			module.deprecate = function () {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	};
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _assocIndexOf = __webpack_require__(15);
+	
+	var _assocIndexOf2 = _interopRequireDefault(_assocIndexOf);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var ListCache = function () {
+	
+	  /**
+	   * Creates an list cache object.
+	   *
+	   * @private
+	   * @constructor
+	   * @param {Array} [entries] The key-value pairs to cache.
+	   */
+	  function ListCache(entries) {
+	    _classCallCheck(this, ListCache);
+	
+	    var index = -1;
+	    var length = entries == null ? 0 : entries.length;
+	
+	    this.clear();
+	    while (++index < length) {
+	      var entry = entries[index];
+	      this.set(entry[0], entry[1]);
+	    }
+	  }
+	
+	  /**
+	   * Removes all key-value entries from the list cache.
+	   *
+	   * @memberOf ListCache
+	   */
+	
+	
+	  _createClass(ListCache, [{
+	    key: 'clear',
+	    value: function clear() {
+	      this.__data__ = [];
+	      this.size = 0;
+	    }
+	
+	    /**
+	     * Removes `key` and its value from the list cache.
+	     *
+	     * @memberOf ListCache
+	     * @param {string} key The key of the value to remove.
+	     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+	     */
+	
+	  }, {
+	    key: 'delete',
+	    value: function _delete(key) {
+	      var data = this.__data__;
+	      var index = (0, _assocIndexOf2.default)(data, key);
+	
+	      if (index < 0) {
+	        return false;
+	      }
+	      var lastIndex = data.length - 1;
+	      if (index == lastIndex) {
+	        data.pop();
+	      } else {
+	        data.splice(index, 1);
+	      }
+	      --this.size;
+	      return true;
+	    }
+	
+	    /**
+	     * Gets the list cache value for `key`.
+	     *
+	     * @memberOf ListCache
+	     * @param {string} key The key of the value to get.
+	     * @returns {*} Returns the entry value.
+	     */
+	
+	  }, {
+	    key: 'get',
+	    value: function get(key) {
+	      var data = this.__data__;
+	      var index = (0, _assocIndexOf2.default)(data, key);
+	      return index < 0 ? undefined : data[index][1];
+	    }
+	
+	    /**
+	     * Checks if a list cache value for `key` exists.
+	     *
+	     * @memberOf ListCache
+	     * @param {string} key The key of the entry to check.
+	     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+	     */
+	
+	  }, {
+	    key: 'has',
+	    value: function has(key) {
+	      return (0, _assocIndexOf2.default)(this.__data__, key) > -1;
+	    }
+	
+	    /**
+	     * Sets the list cache `key` to `value`.
+	     *
+	     * @memberOf ListCache
+	     * @param {string} key The key of the value to set.
+	     * @param {*} value The value to set.
+	     * @returns {Object} Returns the list cache instance.
+	     */
+	
+	  }, {
+	    key: 'set',
+	    value: function set(key, value) {
+	      var data = this.__data__;
+	      var index = (0, _assocIndexOf2.default)(data, key);
+	
+	      if (index < 0) {
+	        ++this.size;
+	        data.push([key, value]);
+	      } else {
+	        data[index][1] = value;
+	      }
+	      return this;
+	    }
+	  }]);
+	
+	  return ListCache;
+	}();
+	
+	exports.default = ListCache;
 
 /***/ }),
 /* 15 */
@@ -779,43 +1059,81 @@
 	  value: true
 	});
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	var _eq = __webpack_require__(16);
 	
-	var _freeGlobal = __webpack_require__(16);
-	
-	var _freeGlobal2 = _interopRequireDefault(_freeGlobal);
+	var _eq2 = _interopRequireDefault(_eq);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	/** Detect free variable `self`. */
-	var freeSelf = (typeof self === 'undefined' ? 'undefined' : _typeof(self)) == 'object' && self !== null && self.Object === Object && self;
+	/**
+	 * Gets the index at which the `key` is found in `array` of key-value pairs.
+	 *
+	 * @private
+	 * @param {Array} array The array to inspect.
+	 * @param {*} key The key to search for.
+	 * @returns {number} Returns the index of the matched value, else `-1`.
+	 */
+	function assocIndexOf(array, key) {
+	  var length = array.length;
 	
-	/** Used as a reference to the global object. */
-	var root = _freeGlobal2.default || freeSelf || Function('return this')();
+	  while (length--) {
+	    if ((0, _eq2.default)(array[length][0], key)) {
+	      return length;
+	    }
+	  }
+	  return -1;
+	}
 	
-	exports.default = root;
+	exports.default = assocIndexOf;
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	/**
+	 * Performs a
+	 * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+	 * comparison between two values to determine if they are equivalent.
+	 *
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to compare.
+	 * @param {*} other The other value to compare.
+	 * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+	 * @example
+	 *
+	 * const object = { 'a': 1 }
+	 * const other = { 'a': 1 }
+	 *
+	 * eq(object, object)
+	 * // => true
+	 *
+	 * eq(object, other)
+	 * // => false
+	 *
+	 * eq('a', 'a')
+	 * // => true
+	 *
+	 * eq('a', Object('a'))
+	 * // => false
+	 *
+	 * eq(NaN, NaN)
+	 * // => true
+	 */
+	function eq(value, other) {
+	  return value === other || value !== value && other !== other;
+	}
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-	
-	/** Detect free variable `global` from Node.js. */
-	var freeGlobal = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) == 'object' && global !== null && global.Object === Object && global;
-	
-	exports.default = freeGlobal;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+	exports.default = eq;
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -823,208 +1141,31 @@
 	  value: true
 	});
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	var _isSymbol = __webpack_require__(6);
+	
+	var _isSymbol2 = _interopRequireDefault(_isSymbol);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/** Used as references for various `Number` constants. */
-	var MAX_SAFE_INTEGER = 9007199254740991;
-	
-	/** Used to detect unsigned integer values. */
-	var reIsUint = /^(?:0|[1-9]\d*)$/;
+	var INFINITY = 1 / 0;
 	
 	/**
-	 * Checks if `value` is a valid array-like index.
+	 * Converts `value` to a string key if it's not a string or symbol.
 	 *
 	 * @private
-	 * @param {*} value The value to check.
-	 * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
-	 * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+	 * @param {*} value The value to inspect.
+	 * @returns {string|symbol} Returns the key.
 	 */
-	function isIndex(value, length) {
-	  var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
-	  length = length == null ? MAX_SAFE_INTEGER : length;
-	
-	  return !!length && (type == 'number' || type != 'symbol' && reIsUint.test(value)) && value > -1 && value % 1 == 0 && value < length;
+	function toKey(value) {
+	  if (typeof value == 'string' || (0, _isSymbol2.default)(value)) {
+	    return value;
+	  }
+	  var result = '' + value;
+	  return result == '0' && 1 / value == -INFINITY ? '-0' : result;
 	}
 	
-	exports.default = isIndex;
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-	
-	var _getTag = __webpack_require__(11);
-	
-	var _getTag2 = _interopRequireDefault(_getTag);
-	
-	var _nodeUtil = __webpack_require__(19);
-	
-	var _nodeUtil2 = _interopRequireDefault(_nodeUtil);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/** Used to match `toStringTag` values of typed arrays. */
-	var reTypedTag = /^\[object (?:Float(?:32|64)|(?:Int|Uint)(?:8|16|32)|Uint8Clamped)\]$/;
-	
-	/* Node.js helper references. */
-	var nodeIsTypedArray = _nodeUtil2.default && _nodeUtil2.default.isTypedArray;
-	
-	/**
-	 * Checks if `value` is classified as a typed array.
-	 *
-	 * @since 3.0.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
-	 * @example
-	 *
-	 * isTypedArray(new Uint8Array)
-	 * // => true
-	 *
-	 * isTypedArray([])
-	 * // => false
-	 */
-	var isTypedArray = nodeIsTypedArray ? function (value) {
-	  return nodeIsTypedArray(value);
-	} : function (value) {
-	  return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object' && value !== null && reTypedTag.test((0, _getTag2.default)(value));
-	};
-	
-	exports.default = isTypedArray;
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-	
-	var _freeGlobal = __webpack_require__(16);
-	
-	var _freeGlobal2 = _interopRequireDefault(_freeGlobal);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/** Detect free variable `exports`. */
-	var freeExports = ( false ? 'undefined' : _typeof(exports)) == 'object' && exports !== null && !exports.nodeType && exports;
-	
-	/** Detect free variable `module`. */
-	var freeModule = freeExports && ( false ? 'undefined' : _typeof(module)) == 'object' && module !== null && !module.nodeType && module;
-	
-	/** Detect the popular CommonJS extension `module.exports`. */
-	var moduleExports = freeModule && freeModule.exports === freeExports;
-	
-	/** Detect free variable `process` from Node.js. */
-	var freeProcess = moduleExports && _freeGlobal2.default.process;
-	
-	/** Used to access faster Node.js helpers. */
-	var nodeUtil = function () {
-	  try {
-	    return freeProcess && freeProcess.binding && freeProcess.binding('util');
-	  } catch (e) {}
-	}();
-	
-	exports.default = nodeUtil;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module)))
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _isLength = __webpack_require__(21);
-	
-	var _isLength2 = _interopRequireDefault(_isLength);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/**
-	 * Checks if `value` is array-like. A value is considered array-like if it's
-	 * not a function and has a `value.length` that's an integer greater than or
-	 * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
-	 *
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
-	 * @example
-	 *
-	 * isArrayLike([1, 2, 3])
-	 * // => true
-	 *
-	 * isArrayLike(document.body.children)
-	 * // => true
-	 *
-	 * isArrayLike('abc')
-	 * // => true
-	 *
-	 * isArrayLike(Function)
-	 * // => false
-	 */
-	function isArrayLike(value) {
-	  return value != null && typeof value != 'function' && (0, _isLength2.default)(value.length);
-	}
-	
-	exports.default = isArrayLike;
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	/** Used as references for various `Number` constants. */
-	var MAX_SAFE_INTEGER = 9007199254740991;
-	
-	/**
-	 * Checks if `value` is a valid array-like length.
-	 *
-	 * **Note:** This method is loosely based on
-	 * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
-	 *
-	 * @since 4.0.0
-	 * @category Lang
-	 * @param {*} value The value to check.
-	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
-	 * @example
-	 *
-	 * isLength(3)
-	 * // => true
-	 *
-	 * isLength(Number.MIN_VALUE)
-	 * // => false
-	 *
-	 * isLength(Infinity)
-	 * // => false
-	 *
-	 * isLength('3')
-	 * // => false
-	 */
-	function isLength(value) {
-	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-	}
-	
-	exports.default = isLength;
+	exports.default = toKey;
 
 /***/ })
 /******/ ]);
