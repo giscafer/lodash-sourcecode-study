@@ -2,37 +2,37 @@
 
 基于版本v5，源码学习，代码注释[@giscafer](https://github.com/giscafer)
 
-由于lodash `v5`版本官方正在计划中，源码部分模块是缺失的，如下模块用到都没有，见[lodash/issues#3514](https://github.com/lodash/lodash/issues/3514)
+由于lodash `v5`版本官方正在计划中，源码部分模块是缺失的，见[lodash/issues#3514](https://github.com/lodash/lodash/issues/3514)
 
 The following modules are imported from `.internal` but don't exist:
 
-* createAssigner
-* createFind
-* createWrap
-* customDefaultsAssignIn
-* replaceHolders
+* `createAssigner`
+* `createFind`
+* `createWrap`
+* `customDefaultsAssignIn`
+* `replaceHolders`
 
 The above modules are imported in the following public modules:
 
-* ary imports createWrap
-* assignWith imports createAssigner
-* bindKey imports createWrap and replaceHolders
-* curry imports createWrap
-* curryRight imports createWrap
-* findLast imports createFind
-* merge imports createAssigner
-* mergeWith imports createAssigner
-* template imports customDefaultsAssignIn
+* `ary` imports `createWrap`
+* `assignWith` imports `createAssigner`
+* `bindKey` imports `createWrap` and `replaceHolders`
+* `curry` imports `createWrap`
+* `curryRight` imports `createWrap`
+* `findLast` imports `createFind`
+* `merge` imports `createAssigner`
+* `mergeWith` imports `createAssigner`
+* `template` imports `customDefaultsAssignIn`
 
 The following public modules are imported but don't exist:
 
-* assignInWith
-* findIndex
+* `assignInWith`
+* `findIndex`
 
 The above modules are imported in the following public modules:
 
-* find imports findIndex
-* template imports assignInWith
+* `find` imports `findIndex`
+* `template` imports assignInWith`
 
 
 针对没有的模块，计划会根据低版本`v4`的去学习了解（如果留到最后v5版本还没有发布的话）
