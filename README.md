@@ -43,6 +43,8 @@ The above modules are imported in the following public modules:
 
  * [VS Code + webpack 调式 lodash 源码](https://github.com/giscafer/giscafer.github.io/issues/24)
  * [lodash源码学习之add方法](https://github.com/giscafer/giscafer.github.io/issues/23)
+ * [lodash源码学习——after和before函数](https://github.com/giscafer/giscafer.github.io/issues/25)
+ * [lodash源码学习——at、get、eq函数](https://github.com/giscafer/giscafer.github.io/issues/26)
 
 
  ## 相关

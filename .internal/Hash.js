@@ -1,6 +1,9 @@
 /** Used to stand-in for `undefined` hash values. */
 const HASH_UNDEFINED = '__lodash_hash_undefined__'
 
+/**
+ * Hash类，用来创建一个带有set\get\delete\clear等方法的hash对象
+ */
 class Hash {
 
   /**

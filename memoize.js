@@ -42,25 +42,31 @@ import MapCache from './.internal/MapCache.js'
  * // Replace `memoize.Cache`.
  * memoize.Cache = WeakMap
  */
+
+ //memoize 方法用来缓存 `func`的结果，缓存后的结果只能通过暴露的`cache`属性去修改
 function memoize(func, resolver) {
   if (typeof func != 'function' || (resolver != null && typeof resolver != 'function')) {
     throw new TypeError('Expected a function')
   }
   const memoized = function(...args) {
+    // 没有resolver则使用第一个参数作为key
     const key = resolver ? resolver.apply(this, args) : args[0]
     const cache = memoized.cache
 
     if (cache.has(key)) {
+      // 如果之前已缓存，直接获取值
       return cache.get(key)
     }
+    // 没有缓存过，则调用func方法获取结果缓存
     const result = func.apply(this, args)
     memoized.cache = cache.set(key, result) || cache
-    return result
+    return result;
   }
+  // 创建一个MapCache实例用来缓存
   memoized.cache = new (memoize.Cache || MapCache)
   return memoized
 }
-
+// 基于MapCache
 memoize.Cache = MapCache
 
 export default memoize

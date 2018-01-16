@@ -29,6 +29,7 @@
  * // => true
  */
 function eq(value, other) {
+  // 我们指定NaN==NaN是不等的，(value !== value && other !== other)这里兼容的这样的情况
   return value === other || (value !== value && other !== other)
 }
 

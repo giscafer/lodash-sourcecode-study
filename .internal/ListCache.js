@@ -1,5 +1,8 @@
 import assocIndexOf from './assocIndexOf.js'
-
+/**
+ * ListCache 类，用来创建一个带有set\get\delete\clear等方法的list cache对象,
+ * 和 Hash区别是，__data__使用数组来存储
+ */
 class ListCache {
 
   /**
