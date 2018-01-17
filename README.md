@@ -45,6 +45,7 @@ The above modules are imported in the following public modules:
  * [lodash源码学习之add方法](https://github.com/giscafer/giscafer.github.io/issues/23)
  * [lodash源码学习——after和before函数](https://github.com/giscafer/giscafer.github.io/issues/25)
  * [lodash源码学习——at、get、eq函数](https://github.com/giscafer/giscafer.github.io/issues/26)
+ * [lodash源码学习——attempt、isError、isPlainObject、isObjectLike函数](https://github.com/giscafer/giscafer.github.io/issues/27)
 
 
  ## 相关
