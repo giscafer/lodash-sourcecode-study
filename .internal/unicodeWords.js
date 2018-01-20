@@ -1,7 +1,12 @@
 /** Used to compose unicode character classes. */
+// 一些特殊字符的unicode，用于编写unicode字符类
+// "�-�"
 const rsAstralRange = '\\ud800-\\udfff'
+// "̀-ͯ"
 const rsComboMarksRange = '\\u0300-\\u036f'
+// "︠-︯"
 const reComboHalfMarksRange = '\\ufe20-\\ufe2f'
+// "⃐-⃿"
 const rsComboSymbolsRange = '\\u20d0-\\u20ff'
 const rsComboRange = rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange
 const rsDingbatRange = '\\u2700-\\u27bf'
@@ -45,7 +50,7 @@ const rsEmoji = `(?:${[rsDingbat, rsRegional, rsSurrPair].join('|')})${rsSeq}`
 
 /**
  * Splits a Unicode `string` into an array of its words.
- *
+ * 正则匹配，通过RegExp.prototype.exec来匹配
  * @private
  * @param {string} The string to inspect.
  * @returns {Array} Returns the words of `string`.
