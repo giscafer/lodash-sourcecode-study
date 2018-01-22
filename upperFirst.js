@@ -2,6 +2,8 @@ import createCaseFirst from './.internal/createCaseFirst.js'
 
 /**
  * Converts the first character of `string` to upper case.
+ * 
+ * 将字符串`string`得首字母转换为大写。
  *
  * @since 4.0.0
  * @category String

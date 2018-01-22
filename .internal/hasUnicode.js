@@ -1,10 +1,10 @@
 /** Used to compose unicode character classes. */
-const rsAstralRange = '\\ud800-\\udfff'
-const rsComboMarksRange = '\\u0300-\\u036f'
-const reComboHalfMarksRange = '\\ufe20-\\ufe2f'
-const rsComboSymbolsRange = '\\u20d0-\\u20ff'
+const rsAstralRange = '\\ud800-\\udfff' //"�-�"
+const rsComboMarksRange = '\\u0300-\\u036f' //"̀-ͯ"
+const reComboHalfMarksRange = '\\ufe20-\\ufe2f';// "︠-︯"
+const rsComboSymbolsRange = '\\u20d0-\\u20ff'; //"⃐-⃿"
 const rsComboRange = rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange
-const rsVarRange = '\\ufe0e\\ufe0f'
+const rsVarRange = '\\ufe0e\\ufe0f' // ""
 
 /** Used to compose unicode capture groups. */
 const rsZWJ = '\\u200d'
@@ -14,7 +14,7 @@ const reHasUnicode = RegExp(`[${rsZWJ + rsAstralRange + rsComboRange + rsVarRang
 
 /**
  * Checks if `string` contains Unicode symbols.
- *
+ * 检查字符串 `string` 是否包含Unicode符号。
  * @private
  * @param {string} string The string to inspect.
  * @returns {boolean} Returns `true` if a symbol is found, else `false`.

@@ -1,5 +1,5 @@
 /** Used to compose unicode character classes. */
-const rsAstralRange = '\\ud800-\\udfff'
+const rsAstralRange = '\\ud800-\\udfff' //"�-�"
 const rsComboMarksRange = '\\u0300-\\u036f'
 const reComboHalfMarksRange = '\\ufe20-\\ufe2f'
 const rsComboSymbolsRange = '\\u20d0-\\u20ff'

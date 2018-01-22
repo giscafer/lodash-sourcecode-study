@@ -42,147 +42,78 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _wordsTest = __webpack_require__(1);
-	
-	var _wordsTest2 = _interopRequireDefault(_wordsTest);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _words = __webpack_require__(2);
-	
-	var _words2 = _interopRequireDefault(_words);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var string = 'fred sssssss asssss';
-	var string1 = 'fred, barney, & pebbles';
-	
-	console.log((0, _words2.default)(string, /[^ ]+/g));
-	console.log((0, _words2.default)(string1));
-	console.log((0, _words2.default)(string1, /[^, ]+/g));
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _unicodeWords = __webpack_require__(3);
-	
-	var _unicodeWords2 = _interopRequireDefault(_unicodeWords);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	// "-/:-@[-`{-"
-	var asciiWords = RegExp.prototype.exec.bind(/[^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]+/g);
-	
-	var hasUnicodeWord = RegExp.prototype.test.bind(/[a-z][A-Z]|[A-Z]{2,}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/);
-	
-	/**
-	 * Splits `string` into an array of its words.
-	 *
-	 * @since 3.0.0
-	 * @category String
-	 * @param {string} [string=''] The string to inspect.
-	 * @param {RegExp|string} [pattern] The pattern to match words.
-	 * @returns {Array} Returns the words of `string`.
-	 * @example
-	 *
-	 * words('fred, barney, & pebbles')
-	 * // => ['fred', 'barney', 'pebbles']
-	 *
-	 * words('fred, barney, & pebbles', /[^, ]+/g)
-	 * // => ['fred', 'barney', '&', 'pebbles']
-	 */
-	function words(string, pattern) {
-	  if (pattern === undefined) {
-	    // 是否存在特殊字符hasUnicodeWord(string)
-	    var result = hasUnicodeWord(string) ? (0, _unicodeWords2.default)(string) : asciiWords(string);
-	    return result || [];
-	  }
-	  return string.match(pattern) || [];
-	}
-	
-	exports.default = words;
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports) {
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	/** Used to compose unicode character classes. */
-	var rsAstralRange = '\\ud800-\\udfff';
-	var rsComboMarksRange = '\\u0300-\\u036f';
-	var reComboHalfMarksRange = '\\ufe20-\\ufe2f';
-	var rsComboSymbolsRange = '\\u20d0-\\u20ff';
-	var rsComboRange = rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange;
-	var rsDingbatRange = '\\u2700-\\u27bf';
-	var rsLowerRange = 'a-z\\xdf-\\xf6\\xf8-\\xff';
-	var rsMathOpRange = '\\xac\\xb1\\xd7\\xf7';
-	var rsNonCharRange = '\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf';
-	var rsPunctuationRange = '\\u2000-\\u206f';
-	var rsSpaceRange = ' \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000';
-	var rsUpperRange = 'A-Z\\xc0-\\xd6\\xd8-\\xde';
-	var rsVarRange = '\\ufe0e\\ufe0f';
-	var rsBreakRange = rsMathOpRange + rsNonCharRange + rsPunctuationRange + rsSpaceRange;
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	/** Used to compose unicode capture groups. */
-	var rsApos = '[\'\u2019]';
-	var rsBreak = '[' + rsBreakRange + ']';
-	var rsCombo = '[' + rsComboRange + ']';
-	var rsDigits = '\\d+';
-	var rsDingbat = '[' + rsDingbatRange + ']';
-	var rsLower = '[' + rsLowerRange + ']';
-	var rsMisc = '[^' + rsAstralRange + (rsBreakRange + rsDigits + rsDingbatRange + rsLowerRange + rsUpperRange) + ']';
-	var rsFitz = '\\ud83c[\\udffb-\\udfff]';
-	var rsModifier = '(?:' + rsCombo + '|' + rsFitz + ')';
-	var rsNonAstral = '[^' + rsAstralRange + ']';
-	var rsRegional = '(?:\\ud83c[\\udde6-\\uddff]){2}';
-	var rsSurrPair = '[\\ud800-\\udbff][\\udc00-\\udfff]';
-	var rsUpper = '[' + rsUpperRange + ']';
-	var rsZWJ = '\\u200d';
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	/** Used to compose unicode regexes. */
-	var rsMiscLower = '(?:' + rsLower + '|' + rsMisc + ')';
-	var rsMiscUpper = '(?:' + rsUpper + '|' + rsMisc + ')';
-	var rsOptContrLower = '(?:' + rsApos + '(?:d|ll|m|re|s|t|ve))?';
-	var rsOptContrUpper = '(?:' + rsApos + '(?:D|LL|M|RE|S|T|VE))?';
-	var reOptMod = rsModifier + '?';
-	var rsOptVar = '[' + rsVarRange + ']?';
-	var rsOptJoin = '(?:' + rsZWJ + '(?:' + [rsNonAstral, rsRegional, rsSurrPair].join('|') + ')' + (rsOptVar + reOptMod) + ')*';
-	var rsOrdLower = '\\d*(?:(?:1st|2nd|3rd|(?![123])\\dth)\\b)';
-	var rsOrdUpper = '\\d*(?:(?:1ST|2ND|3RD|(?![123])\\dTH)\\b)';
-	var rsSeq = rsOptVar + reOptMod + rsOptJoin;
-	var rsEmoji = '(?:' + [rsDingbat, rsRegional, rsSurrPair].join('|') + ')' + rsSeq;
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	/**
-	 * Splits a Unicode `string` into an array of its words.
-	 *
-	 * @private
-	 * @param {string} The string to inspect.
-	 * @returns {Array} Returns the words of `string`.
-	 */
-	var unicodeWords = RegExp.prototype.exec.bind(RegExp([rsUpper + '?' + rsLower + '+' + rsOptContrLower + '(?=' + [rsBreak, rsUpper, '$'].join('|') + ')', rsMiscUpper + '+' + rsOptContrUpper + '(?=' + [rsBreak, rsUpper + rsMiscLower, '$'].join('|') + ')', rsUpper + '?' + rsMiscLower + '+' + rsOptContrLower, rsUpper + '+' + rsOptContrUpper, rsOrdUpper, rsOrdLower, rsDigits, rsEmoji].join('|'), 'g'));
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	exports.default = unicodeWords;
+	// import isSymbol from './isSymbol.test.js';
+	// import add from './add.test.js';
+	// import after from './after.test.js';
+	// import ary from './ary.test.js'; //源码少./.internal/createWrap.js
+	// import get from './get.test.js';
+	// import memoize from './memoize.test.js';
+	// import words from './words.test.js';
+	// import stringToArray from './stringToArray.test';
+	
+	
+	var call = function call(key) {
+	    var args = [];
+	    for (var _i = 1; _i < arguments.length; _i++) {
+	        args[_i - 1] = arguments[_i];
+	    }
+	
+	    return function (context) {
+	        console.log('222', context);
+	        return context[key].apply(context, args);
+	    };
+	};
+	
+	var map = call.bind(null, 'map');
+	Promise.resolve([1, 2, 3]).then(map(function (x) {
+	    return 2 * x;
+	})).then(console.log);
+	
+	var Father = function () {
+	    function Father() {
+	        _classCallCheck(this, Father);
+	
+	        this.hairColor = 'black';
+	    }
+	
+	    _createClass(Father, [{
+	        key: 'walker',
+	        value: function walker() {
+	            console.log('walker');
+	        }
+	    }]);
+	
+	    return Father;
+	}();
+	
+	var Son = function (_Father) {
+	    _inherits(Son, _Father);
+	
+	    function Son() {
+	        _classCallCheck(this, Son);
+	
+	        return _possibleConstructorReturn(this, (Son.__proto__ || Object.getPrototypeOf(Son)).call(this));
+	    }
+	
+	    return Son;
+	}(Father);
+	
+	var tom = new Son();
+	
+	console.log(tom.hairColor);
+	console.log(tom.walker());
 
 /***/ })
 /******/ ]);
