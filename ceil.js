@@ -1,7 +1,7 @@
 import createRound from './.internal/createRound.js'
 
 /**
- * Computes `number` rounded up to `precision`.
+ * 根据精度计算精确的数值，向上一位取整，类似Math.ceil（不支持precision参数）
  *
  * @since 3.10.0
  * @category Math

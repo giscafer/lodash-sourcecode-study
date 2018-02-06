@@ -42,78 +42,70 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createRound = __webpack_require__(1);
+	
+	var _createRound2 = _interopRequireDefault(_createRound);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createRound = __webpack_require__(2);
+	
+	var _createRound2 = _interopRequireDefault(_createRound);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	console.log((0, _createRound2.default)('ceil')(6040, -2));
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports) {
 
 	'use strict';
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	// import isSymbol from './isSymbol.test.js';
-	// import add from './add.test.js';
-	// import after from './after.test.js';
-	// import ary from './ary.test.js'; //源码少./.internal/createWrap.js
-	// import get from './get.test.js';
-	// import memoize from './memoize.test.js';
-	// import words from './words.test.js';
-	// import stringToArray from './stringToArray.test';
-	
-	
-	var call = function call(key) {
-	    var args = [];
-	    for (var _i = 1; _i < arguments.length; _i++) {
-	        args[_i - 1] = arguments[_i];
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * Creates a function like `round`.
+	 * 创建一个类似 `round` 的函数
+	 * @private
+	 * @param {string} methodName 四舍五入时使用的 `Match` 的方法名称。
+	 * @returns {Function} 返回一个新的函数
+	 */
+	function createRound(methodName) {
+	  // 取得 Math 中的函数
+	  var func = Math[methodName];
+	  // 返回一个匿名函数
+	  return function (number, precision) {
+	    // 默认为0 和控制最大值为292
+	    precision = precision == null ? 0 : Math.min(precision, 292);
+	    // precision!==0
+	    if (precision) {
+	      // 用指数符号变换以避免浮点问题
+	      // See [MDN](https://mdn.io/round#Examples) for more details.
+	      // 这里`${number}e`加入了e字符，为了下边能直接使用pair[1]取值而不需要判断是否存在
+	      var pair = (number + 'e').split('e');
+	      // 先算出e `precision` 科学计算结果
+	      var value = func(pair[0] + 'e' + (+pair[1] + precision));
+	      // 再恢复原来的位数
+	      pair = (value + 'e').split('e');
+	      return +(pair[0] + 'e' + (+pair[1] - precision));
 	    }
+	    return func(number);
+	  };
+	}
 	
-	    return function (context) {
-	        console.log('222', context);
-	        return context[key].apply(context, args);
-	    };
-	};
-	
-	var map = call.bind(null, 'map');
-	Promise.resolve([1, 2, 3]).then(map(function (x) {
-	    return 2 * x;
-	})).then(console.log);
-	
-	var Father = function () {
-	    function Father() {
-	        _classCallCheck(this, Father);
-	
-	        this.hairColor = 'black';
-	    }
-	
-	    _createClass(Father, [{
-	        key: 'walker',
-	        value: function walker() {
-	            console.log('walker');
-	        }
-	    }]);
-	
-	    return Father;
-	}();
-	
-	var Son = function (_Father) {
-	    _inherits(Son, _Father);
-	
-	    function Son() {
-	        _classCallCheck(this, Son);
-	
-	        return _possibleConstructorReturn(this, (Son.__proto__ || Object.getPrototypeOf(Son)).call(this));
-	    }
-	
-	    return Son;
-	}(Father);
-	
-	var tom = new Son();
-	
-	console.log(tom.hairColor);
-	console.log(tom.walker());
+	exports.default = createRound;
 
 /***/ })
 /******/ ]);
