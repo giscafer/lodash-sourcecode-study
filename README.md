@@ -39,14 +39,27 @@ The above modules are imported in the following public modules:
 
 ## [lodash源码学习文章列表](https://github.com/giscafer/giscafer.github.io/labels/lodash%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0)
 
-章节目录：
+### 章节目录：
 
  * [VS Code + webpack 调式 lodash 源码](https://github.com/giscafer/giscafer.github.io/issues/24)
  * [lodash源码学习之add方法](https://github.com/giscafer/giscafer.github.io/issues/23)
  * [lodash源码学习——after和before函数](https://github.com/giscafer/giscafer.github.io/issues/25)
  * [lodash源码学习——at、get、eq函数](https://github.com/giscafer/giscafer.github.io/issues/26)
  * [lodash源码学习——attempt、isError、isPlainObject、isObjectLike函数](https://github.com/giscafer/giscafer.github.io/issues/27)
+ * [lodash源码学习——camelCase、capitalize、upperFirst、words、slice函数](https://github.com/giscafer/giscafer.github.io/issues/28)
 
+#### Array
+
+ * [lodash 源码学习——castArray、ceil、chunk、clamp 函数](https://github.com/giscafer/giscafer.github.io/issues/30)
+ * [lodash 源码学习——castArray、ceil、chunk、clamp 函数](https://github.com/giscafer/giscafer.github.io/issues/30)
+
+
+
+---
+
+**源码注释+测试代码见**：[lodash-sourcecode-study](https://github.com/giscafer/lodash-sourcecode-study)
+
+**前端学堂：[felearn.com](http://www.felearn.com/)**
 
  ## 相关
 
