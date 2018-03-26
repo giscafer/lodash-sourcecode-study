@@ -51,7 +51,7 @@ The above modules are imported in the following public modules:
 #### Array
 
  * [lodash 源码学习——castArray、ceil、chunk、clamp 函数](https://github.com/giscafer/giscafer.github.io/issues/30)
- * [lodash 源码学习——castArray、ceil、chunk、clamp 函数](https://github.com/giscafer/giscafer.github.io/issues/30)
+ * [lodash 源码学习—— Array之 concat 、compact、isArguments、isFlattenable 函数](https://github.com/giscafer/giscafer.github.io/issues/31)
 
 
 

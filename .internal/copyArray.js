@@ -1,6 +1,6 @@
 /**
  * Copies the values of `source` to `array`.
- *
+ * 拷贝`source`元素到`array`，类数组对象转数组，如let source = {length: 2, 0: 'c', 1: 'd'};
  * @private
  * @param {Array} source The array to copy values from.
  * @param {Array} [array=[]] The array to copy values to.
