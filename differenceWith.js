@@ -8,6 +8,8 @@ import last from './last.js'
  * which is invoked to compare elements of `array` to `values`. The order and
  * references of result values are determined by the first array. The comparator
  * is invoked with two arguments: (arrVal, othVal).
+ * 
+ * 和`difference`相似，不过此方法支持比较器
  *
  * **Note:** Unlike `pullAllWith`, this method returns a new array.
  *
@@ -25,11 +27,14 @@ import last from './last.js'
  * // => [{ 'x': 2, 'y': 1 }]
  */
 function differenceWith(array, ...values) {
-  let comparator = last(values)
+  // 将最后一个参数赋值给comparator变量
+  let comparator = last(values);
+  // 判断是否存在比较器函数
   if (isArrayLikeObject(comparator)) {
     comparator = undefined
   }
   return isArrayLikeObject(array)
+    // 带比较器的baseDifference
     ? baseDifference(array, baseFlatten(values, 1, isArrayLikeObject, true), undefined, comparator)
     : []
 }

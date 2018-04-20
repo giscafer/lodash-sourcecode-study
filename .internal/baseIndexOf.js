@@ -14,7 +14,7 @@ import strictIndexOf from './strictIndexOf.js'
 function baseIndexOf(array, value, fromIndex) {
   return value === value
     ? strictIndexOf(array, value, fromIndex)
-    : baseFindIndex(array, baseIsNaN, fromIndex)
+    : baseFindIndex(array, baseIsNaN, fromIndex) // 查找NaN的元素
 }
 
 export default baseIndexOf

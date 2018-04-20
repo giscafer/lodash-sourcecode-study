@@ -26,6 +26,7 @@ const MAX_SAFE_INTEGER = 9007199254740991
  * // => false
  */
 function isLength(value) {
+  // 符合自然数内的正整数&包含0
   return typeof value == 'number' &&
     value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER
 }

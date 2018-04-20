@@ -9,8 +9,12 @@ import last from './last.js'
  * by which they're compared. The order and references of result values are
  * determined by the first array. The iteratee is invoked with one argument:
  * (value).
+ * 
+ * 此方法和`difference`相识，但支持每个元素执行`iteratee`，它会调用 `array` 和 `values`的每个元素，以生成它们被比较的标准。
+ * 结果的元素顺序由第一个数组决定。iteratee参数为(value)
  *
  * **Note:** Unlike `pullAllBy`, this method returns a new array.
+ * 返回一个新数组
  *
  * @since 4.0.0
  * @category Array
@@ -24,11 +28,14 @@ import last from './last.js'
  * // => [1.2]
  */
 function differenceBy(array, ...values) {
+  // iteratee赋值为为最后一个参数
   let iteratee = last(values)
+  // 如果没有iteratee
   if (isArrayLikeObject(iteratee)) {
     iteratee = undefined
   }
   return isArrayLikeObject(array)
+  // iteratee的作用见baseDifference里边
     ? baseDifference(array, baseFlatten(values, 1, isArrayLikeObject, true), iteratee)
     : []
 }

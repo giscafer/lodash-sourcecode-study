@@ -24,6 +24,7 @@ import isLength from './isLength.js'
  * // => false
  */
 function isArrayLike(value) {
+  // 不为空，不是函数，有length属性
   return value != null && typeof value != 'function' && isLength(value.length)
 }
 

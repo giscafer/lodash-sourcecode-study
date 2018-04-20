@@ -1,6 +1,8 @@
 /**
  * A specialized version of `indexOf` which performs strict equality
  * comparisons of values, i.e. `===`.
+ * 
+ * “indexOf”的一个专门版本，它对值进行严格的平等比较，即===。
  *
  * @private
  * @param {Array} array The array to inspect.

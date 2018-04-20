@@ -1,6 +1,6 @@
 /**
  * This function is like `arrayIncludes` except that it accepts a comparator.
- *
+ * 该方法和`arrayIncludes`类似，不过此方法支持一个参数作为比较器
  * @private
  * @param {Array} [array] The array to inspect.
  * @param {*} target The value to search for.
