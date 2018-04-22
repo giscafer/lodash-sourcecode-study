@@ -53,6 +53,7 @@ The above modules are imported in the following public modules:
  * [lodash 源码学习——castArray、ceil、chunk、clamp 函数](https://github.com/giscafer/giscafer.github.io/issues/30)
  * [lodash 源码学习—— Array之 concat 、compact、isArguments、isFlattenable 函数](https://github.com/giscafer/giscafer.github.io/issues/31)
  * [lodash源码学习—— Array之 difference 、differenceBy、differenceWith函数](https://github.com/giscafer/giscafer.github.io/issues/32)
+ * [lodash源码学习—— Array之 drop 、dropRight、dropRightWhile、dropWhile函数](https://github.com/giscafer/giscafer.github.io/issues/33)
 
 
 
@@ -65,10 +66,6 @@ The above modules are imported in the following public modules:
  ## 相关
 
  - 前端学堂：[felearn.com](http://www.felearn.com)
-
-
- - 前端实战学习星球群：https://t.xiaomiquan.com/zvj2Zzf
-
 
  - 微信公众号：
 
