@@ -54,6 +54,7 @@ The above modules are imported in the following public modules:
  * [lodash 源码学习—— Array之 concat 、compact、isArguments、isFlattenable 函数](https://github.com/giscafer/giscafer.github.io/issues/31)
  * [lodash源码学习—— Array之 difference 、differenceBy、differenceWith函数](https://github.com/giscafer/giscafer.github.io/issues/32)
  * [lodash源码学习—— Array之 drop 、dropRight、dropRightWhile、dropWhile函数](https://github.com/giscafer/giscafer.github.io/issues/33)
+ * [lodash源码学习—— Array之fill函数](https://github.com/giscafer/giscafer.github.io/issues/34)
 
 
 

@@ -16,11 +16,10 @@ function baseWhile(array, predicate, isDrop, fromRight) {
   const { length } = array
   let index = fromRight ? length : -1
 
+  // 循环直到predicate返回false或循环结束
+  // (fromRight ? index-- : ++index < length) 很精简，index--为0的时候或++index>=length的时候退出循环
   while ((fromRight ? index-- : ++index < length) && predicate(array[index], index, array)) {
-    console.log(index)
   }
- console.log('===')
- console.log(index)
   return isDrop
     ? slice(array, (fromRight ? 0 : index), (fromRight ? index + 1 : length))
     : slice(array, (fromRight ? index + 1 : 0), (fromRight ? length : index))
